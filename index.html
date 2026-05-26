@@ -15,20 +15,20 @@
       --bg: #f4f7f5;
       --bg-2: #e8efe9;
       --surface: rgba(255, 255, 255, 0.85);
-      --border: rgba(130, 160, 140, 0.18);
-      --border-h: rgba(130, 160, 140, 0.35);
-      --text: #2c3e35;
-      --text-2: #556b5e;
-      --text-3: #8da396;
-      --accent: #5f8575;
-      --accent-2: #8eb39f;
-      --accent-rgb: 95, 133, 117;
+      --border: rgba(130, 160, 140, 0.22);
+      --border-h: rgba(130, 160, 140, 0.45);
+      --text: #1b2d24;
+      --text-2: #485c50;
+      --text-3: #758e80;
+      --accent: #496d5d;
+      --accent-2: #7fa893;
+      --accent-rgb: 73, 109, 93;
       --grad: linear-gradient(135deg, var(--accent), var(--accent-2));
       
       /* Status Colors */
-      --success: #4e8c6f;
-      --warning: #d99c52;
-      --danger: #c96868;
+      --success: #3c7a5c;
+      --warning: #cc8433;
+      --danger: #b54a4a;
     }
 
     * {
@@ -56,15 +56,15 @@
 
     /* Hero Section */
     .hero {
-      min-height: 75vh;
+      min-height: 70vh;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 120px 24px 60px;
-      background: radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.18) 0%, transparent 70%),
+      padding: 120px 24px 80px;
+      background: radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.22) 0%, transparent 70%),
                   linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
     }
 
@@ -86,7 +86,7 @@
     }
 
     .hero-content {
-      max-width: 800px;
+      max-width: 850px;
       z-index: 2;
     }
 
@@ -94,14 +94,14 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(95, 133, 117, 0.1);
+      background: rgba(73, 109, 93, 0.1);
       color: var(--accent);
       padding: 8px 16px;
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 24px;
-      border: 1px solid rgba(95, 133, 117, 0.15);
+      border: 1px solid rgba(73, 109, 93, 0.15);
       animation: fadeIn 0.8s ease;
     }
 
@@ -110,7 +110,7 @@
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -1.5px;
-      background: linear-gradient(135deg, var(--accent) 0%, #355344 100%);
+      background: linear-gradient(135deg, var(--accent) 0%, #22382c 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -121,7 +121,7 @@
     .hero-subtitle {
       font-size: clamp(16px, 2vw, 20px);
       color: var(--text-2);
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto 36px;
       animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
       animation-delay: 0.1s;
@@ -130,7 +130,7 @@
     /* Dashboard Layout */
     .dashboard-container {
       max-width: 1280px;
-      margin: -100px auto 100px;
+      margin: -80px auto 100px;
       padding: 0 24px;
       position: relative;
       z-index: 10;
@@ -144,7 +144,7 @@
 
     @media (min-width: 1024px) {
       .dashboard-grid {
-        grid-template-columns: 350px 1fr;
+        grid-template-columns: 380px 1fr;
       }
     }
 
@@ -161,7 +161,6 @@
     }
 
     .card:hover {
-      transform: translateY(-4px);
       border-color: var(--border-h);
       box-shadow: 0 20px 50px rgba(130, 160, 140, 0.2), 0 1px 0 rgba(255,255,255,0.8) inset;
     }
@@ -170,6 +169,13 @@
       font-size: 20px;
       color: var(--text);
       margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-title-left {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -218,7 +224,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(95, 133, 117, 0.08);
+      background: rgba(73, 109, 93, 0.08);
       color: var(--accent);
     }
 
@@ -290,9 +296,25 @@
       color: var(--text-3);
     }
 
+    /* Live Vitals Advisor Banner */
+    .live-advisor {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-top: -12px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
     /* Form Controls */
     .form-group {
       margin-bottom: 20px;
+      position: relative;
     }
 
     .form-group label {
@@ -325,11 +347,39 @@
     input:focus, select:focus, textarea:focus {
       border-color: var(--accent);
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(95, 133, 117, 0.12);
+      box-shadow: 0 0 0 4px rgba(73, 109, 93, 0.12);
     }
 
     input::placeholder {
       color: var(--text-3);
+    }
+
+    /* Target Goals Customizer Drawer */
+    .goals-customizer {
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+      padding-top: 20px;
+    }
+
+    .goals-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+
+    .goals-inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      animation: fadeIn 0.3s ease;
     }
 
     /* Buttons */
@@ -347,14 +397,14 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(95, 133, 117, 0.3);
+      box-shadow: 0 4px 20px rgba(73, 109, 93, 0.3);
       font-family: inherit;
       width: 100%;
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(95, 133, 117, 0.45);
+      box-shadow: 0 8px 30px rgba(73, 109, 93, 0.45);
     }
 
     .btn:active {
@@ -374,6 +424,61 @@
       background: rgba(255, 255, 255, 0.3);
     }
 
+    /* Dynamic SVG Chart Card */
+    .chart-card {
+      margin-bottom: 32px;
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: rgba(73, 109, 93, 0.05);
+      padding: 6px;
+      border-radius: 12px;
+    }
+
+    .chart-tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .chart-tab-btn.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      margin-top: 10px;
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      background: rgba(27, 45, 36, 0.95);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
     /* Log History List */
     .history-section {
       margin-top: 32px;
@@ -384,6 +489,35 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .history-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .history-controls {
+        width: auto;
+      }
+    }
+
+    .history-search-input {
+      max-width: 200px;
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 10px;
+    }
+
+    .history-filter-select {
+      max-width: 150px;
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 10px;
     }
 
     .history-list {
@@ -433,7 +567,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      background: rgba(95, 133, 117, 0.05);
+      background: rgba(73, 109, 93, 0.05);
       padding: 2px 8px;
       border-radius: 6px;
     }
@@ -459,13 +593,13 @@
 
     .btn-icon:hover {
       color: var(--danger);
-      border-color: rgba(201, 104, 104, 0.3);
-      background: rgba(201, 104, 104, 0.05);
+      border-color: rgba(181, 74, 74, 0.3);
+      background: rgba(181, 74, 74, 0.05);
     }
 
     /* Dynamic Insights Card */
     .insight-box {
-      background: linear-gradient(135deg, rgba(95, 133, 117, 0.05) 0%, rgba(142, 179, 159, 0.1) 100%);
+      background: linear-gradient(135deg, rgba(73, 109, 93, 0.05) 0%, rgba(127, 168, 147, 0.1) 100%);
       border: 1px dashed var(--accent-2);
       border-radius: 20px;
       padding: 24px;
@@ -518,7 +652,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(44, 62, 53, 0.4);
+      background: rgba(27, 45, 36, 0.4);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
@@ -579,7 +713,7 @@
     }
 
     .modal-tab-btn.active {
-      background: rgba(95, 133, 117, 0.12);
+      background: rgba(73, 109, 93, 0.12);
       color: var(--accent);
     }
 
@@ -594,7 +728,7 @@
 
     .tech-pill {
       display: inline-block;
-      background: rgba(95, 133, 117, 0.08);
+      background: rgba(73, 109, 93, 0.08);
       color: var(--accent);
       padding: 4px 10px;
       border-radius: 6px;
@@ -672,26 +806,6 @@
       return true; // suppress visual error overlay
     };
   </script>
-
-  <!-- AppBuilder runtime monitor -->
-  <script>
-    window.onerror = function(msg, src, line, col, err) {
-      try {
-        fetch('http://localhost:3000/api/telemetry/report', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            appPath: window.location.pathname,
-            errorMsg: msg,
-            source: src,
-            line: line,
-            stackTrace: err ? err.stack : ''
-          })
-        });
-      } catch (_) {}
-      return true; // suppress visual error overlay
-    };
-  </script>
 </head>
 <body>
 
@@ -705,10 +819,10 @@
     <div class="hero-content">
       <div class="badge">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Your Data is Safe & Localized
+        Your Data is Safe, Local & Dynamic
       </div>
       <h1 class="headline">Your Daily Wellness, Harmonized</h1>
-      <p class="hero-subtitle">Track vitals, monitor habits, and nurture your body with AuraHealth. A quiet, clean space designed for holistic healing and progress.</p>
+      <p class="hero-subtitle">Track vitals, monitor habits with dynamic SVG trends, adapt personalized target goals, and receive smart context-aware insights privately.</p>
       
       <!-- Interactive Guide / Repository Overview Buttons -->
       <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: -12px; margin-bottom: 24px;" class="animate delay-2">
@@ -732,8 +846,10 @@
       <section class="animate delay-1">
         <div class="card">
           <h2 class="card-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"/></svg>
-            Log Daily Metrics
+            <span class="card-title-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"/></svg>
+              Log Daily Metrics
+            </span>
           </h2>
           
           <!-- Quick Add Section -->
@@ -750,6 +866,11 @@
             </div>
           </div>
 
+          <!-- Live Vitals Advisor Banner -->
+          <div class="live-advisor" id="liveAdvisor" style="display: none;">
+            <!-- Injected by JS -->
+          </div>
+
           <form id="logForm" onsubmit="handleLogSubmit(event)">
             <div class="form-group">
               <label for="logDate">Date</label>
@@ -759,11 +880,11 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="heartRate">Heart Rate (bpm)</label>
-                <input type="number" id="heartRate" placeholder="e.g., 72" min="40" max="200" required>
+                <input type="number" id="heartRate" placeholder="e.g., 72" min="40" max="200" required oninput="assessVitalsRealtime()">
               </div>
               <div class="form-group">
                 <label for="bloodPressure">Blood Pressure</label>
-                <input type="text" id="bloodPressure" placeholder="e.g., 120/80" pattern="^\d{2,3}\/\d{2,3}$" required>
+                <input type="text" id="bloodPressure" placeholder="e.g., 120/80" pattern="^\d{2,3}\/\d{2,3}$" required oninput="assessVitalsRealtime()">
               </div>
             </div>
 
@@ -801,10 +922,32 @@
               Save Daily Entry
             </button>
           </form>
+
+          <!-- Customizable Goals Section -->
+          <div class="goals-customizer">
+            <button class="goals-toggle-btn" onclick="toggleGoalsPanel()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9m3 14H5M4 17h16m-6-10h6m-3 7H3M13 3h8"/></svg>
+              <span>Customize Personal Goal Targets</span>
+            </button>
+            <div id="goalsPanel" class="goals-inputs-grid" style="display: none;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="goalSleep" style="font-size: 11px;">Sleep (hrs)</label>
+                <input type="number" id="goalSleep" value="7.5" step="0.5" min="4" max="12" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="goalWater" style="font-size: 11px;">Water (ml)</label>
+                <input type="number" id="goalWater" value="2000" step="100" min="500" max="5000" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="goalActive" style="font-size: 11px;">Active (min)</label>
+                <input type="number" id="goalActive" value="30" step="5" min="5" max="180" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Right Column: Metrics, Insights & History -->
+      <!-- Right Column: Metrics, Trends, Insights & History -->
       <section class="animate delay-2">
         
         <!-- Dynamic Insights Panel -->
@@ -815,6 +958,28 @@
           <div class="insight-content">
             <h4 id="insightTitle">Wellness Pulse</h4>
             <p id="insightDesc">Your logs look steady today. Maintain hydration and aim for a consistent sleep pattern to support natural metabolic recovery.</p>
+          </div>
+        </div>
+
+        <!-- Dynamic SVG Chart Card -->
+        <div class="card chart-card">
+          <h3 class="card-title">
+            <span class="card-title-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Interactive Health Trends
+            </span>
+          </h3>
+          <div class="chart-tabs">
+            <button class="chart-tab-btn active" onclick="switchChartMetric('sleep')">Sleep Hrs</button>
+            <button class="chart-tab-btn" onclick="switchChartMetric('water')">Water Intake</button>
+            <button class="chart-tab-btn" onclick="switchChartMetric('active')">Active Mins</button>
+            <button class="chart-tab-btn" onclick="switchChartMetric('heart')">Heart Rate</button>
+          </div>
+          <div class="chart-wrapper">
+            <div class="chart-tooltip" id="chartTooltip"></div>
+            <svg id="trendSvg" width="100%" height="100%" viewBox="0 0 600 220" preserveAspectRatio="none" style="overflow: visible;">
+              <!-- Dynamic chart elements will be injected here -->
+            </svg>
           </div>
         </div>
 
@@ -867,10 +1032,23 @@
         <div class="card history-section">
           <div class="history-header">
             <h3 class="card-title" style="margin-bottom: 0;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Wellness Log History
+              <span class="card-title-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Wellness Log History
+              </span>
             </h3>
-            <button class="btn btn-ghost" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="resetToSampleData()">Reset Data</button>
+            <div class="history-controls">
+              <input type="text" id="historySearch" class="history-search-input" placeholder="Search by date..." oninput="renderHistory()">
+              <select id="historyFilter" class="history-filter-select" onchange="renderHistory()">
+                <option value="All">All Moods</option>
+                <option value="Excellent">Excellent 🌟</option>
+                <option value="Good">Good 😊</option>
+                <option value="Calm">Calm 🧘</option>
+                <option value="Tired">Tired 🥱</option>
+                <option value="Stressed">Stressed 😫</option>
+              </select>
+              <button class="btn btn-ghost" style="width: auto; padding: 8px 16px; font-size: 13px;" onclick="resetToSampleData()">Reset Data</button>
+            </div>
           </div>
 
           <div id="historyList" class="history-list">
@@ -923,9 +1101,10 @@
         <ul class="repo-feature-list">
           <li><strong>Daily Vitals Logging:</strong> Track Heart Rate (bpm), Blood Pressure (systolic/diastolic), Sleep hours, Water intake, Active exercise minutes, and general Mood.</li>
           <li><strong>One-Tap Quick Trackers:</strong> Add hydration (+250ml) or movement (+15m) to your active day instantly with simple, intuitive buttons.</li>
-          <li><strong>Dynamic AI-Style Insights:</strong> Receives your metrics instantly and generates health-conscious, context-aware advice based on your current levels.</li>
-          <li><strong>Averages & Target Trends:</strong> Compiles your history to measure whether you are meeting recommended targets (e.g., 7 hours of sleep, 2L water, 30 min activity).</li>
-          <li><strong>Historical Ledger:</strong> Review your chronological wellness history, overwrite existing dates, or delete entries seamlessly.</li>
+          <li><strong>Dynamic SVG Trends:</strong> Interactive health graphs that dynamically render Sleep, Water, Active time, and Heart Rate trends with tooltips.</li>
+          <li><strong>Custom Goals Setting:</strong> Set and customize sleep, hydration, and activity goals to update target metrics dynamically.</li>
+          <li><strong>Real-time Vitals Assessor:</strong> Immediate visual clinical range feedback on heart rate and blood pressure inputs as you type.</li>
+          <li><strong>Historical Ledger:</strong> Review your chronological wellness history, filter by mood, search by date, or delete entries seamlessly.</li>
         </ul>
       </div>
 
@@ -938,7 +1117,7 @@
         
         <div style="margin-bottom: 16px;">
           <span class="tech-pill">Vanilla JS (ES6)</span>
-          <span class="tech-pill">HTML5 Canvas/Storage</span>
+          <span class="tech-pill">HTML5 Canvas/SVG</span>
           <span class="tech-pill">CSS Glassmorphism</span>
           <span class="tech-pill">Zero Server Dependencies</span>
           <span class="tech-pill">No Trackers</span>
@@ -970,7 +1149,15 @@
       { id: 5, date: getPastDateString(4), heartRate: 74, bloodPressure: "119/79", sleepHours: 7.0, waterIntake: 2000, activeMins: 30, mood: "Good" }
     ];
 
+    const defaultGoals = {
+      sleep: 7.5,
+      water: 2000,
+      active: 30
+    };
+
     let healthLogs = [];
+    let customGoals = { ...defaultGoals };
+    let activeChartMetric = 'sleep';
 
     // Helper to get past dates easily
     function getPastDateString(daysAgo) {
@@ -988,13 +1175,27 @@
       document.getElementById("logDate").value = getPastDateString(0);
 
       // Load data from localStorage or set defaults
-      const stored = localStorage.getItem("aura_health_logs");
-      if (stored) {
-        healthLogs = JSON.parse(stored);
+      const storedLogs = localStorage.getItem("aura_health_logs");
+      if (storedLogs) {
+        healthLogs = JSON.parse(storedLogs);
       } else {
         healthLogs = [...defaultLogs];
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
       }
+
+      // Load goals from localStorage or set defaults
+      const storedGoals = localStorage.getItem("aura_health_goals");
+      if (storedGoals) {
+        customGoals = JSON.parse(storedGoals);
+      } else {
+        customGoals = { ...defaultGoals };
+        localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
+      }
+
+      // Pre-fill Goal inputs
+      document.getElementById("goalSleep").value = customGoals.sleep;
+      document.getElementById("goalWater").value = customGoals.water;
+      document.getElementById("goalActive").value = customGoals.active;
 
       renderApp();
     });
@@ -1003,7 +1204,14 @@
     function resetToSampleData() {
       if (confirm("Are you sure you want to reset and reload the sample health logs?")) {
         healthLogs = [...defaultLogs];
+        customGoals = { ...defaultGoals };
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
+        localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
+        
+        document.getElementById("goalSleep").value = customGoals.sleep;
+        document.getElementById("goalWater").value = customGoals.water;
+        document.getElementById("goalActive").value = customGoals.active;
+
         renderApp();
       }
     }
@@ -1013,6 +1221,84 @@
       renderMetrics();
       renderHistory();
       renderInsights();
+      renderChart();
+    }
+
+    // Goal Panel Toggle
+    function toggleGoalsPanel() {
+      const panel = document.getElementById("goalsPanel");
+      panel.style.display = panel.style.display === "none" ? "grid" : "none";
+    }
+
+    // Save customized goals
+    function saveCustomGoals() {
+      customGoals.sleep = parseFloat(document.getElementById("goalSleep").value) || defaultGoals.sleep;
+      customGoals.water = parseInt(document.getElementById("goalWater").value) || defaultGoals.water;
+      customGoals.active = parseInt(document.getElementById("goalActive").value) || defaultGoals.active;
+
+      localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
+      renderMetrics();
+      showNotification("Personal goal targets updated!");
+    }
+
+    // Real-time Vitals Assessor
+    function assessVitalsRealtime() {
+      const hrInput = document.getElementById("heartRate").value;
+      const bpInput = document.getElementById("bloodPressure").value;
+      const advisor = document.getElementById("liveAdvisor");
+
+      if (!hrInput && !bpInput) {
+        advisor.style.display = "none";
+        return;
+      }
+
+      advisor.style.display = "flex";
+      let hrText = "";
+      let bpText = "";
+      let statusColor = "var(--text-2)";
+
+      if (hrInput) {
+        const hr = parseInt(hrInput);
+        if (hr < 60) {
+          hrText = "HR: Lower range (Athletic rest/Bradycardia)";
+          statusColor = "var(--accent)";
+        } else if (hr >= 60 && hr <= 100) {
+          hrText = "HR: Healthy resting range";
+          statusColor = "var(--success)";
+        } else {
+          hrText = "HR: Elevated range (Tachycardia)";
+          statusColor = "var(--warning)";
+        }
+      }
+
+      if (bpInput) {
+        const bpParts = bpInput.split("/");
+        if (bpParts.length === 2) {
+          const sys = parseInt(bpParts[0]);
+          const dia = parseInt(bpParts[1]);
+          if (!isNaN(sys) && !isNaN(dia)) {
+            if (sys < 120 && dia < 80) {
+              bpText = "BP: Optimal normal range";
+              if (statusColor !== "var(--warning)") statusColor = "var(--success)";
+            } else if (sys >= 120 && sys <= 129 && dia < 80) {
+              bpText = "BP: Elevated range";
+              statusColor = "var(--warning)";
+            } else if ((sys >= 130 && sys <= 139) || (dia >= 80 && dia <= 89)) {
+              bpText = "BP: Stage 1 Hypertension";
+              statusColor = "var(--warning)";
+            } else {
+              bpText = "BP: Stage 2 Hypertension (Consult practitioner)";
+              statusColor = "var(--danger)";
+            }
+          }
+        }
+      }
+
+      const content = [hrText, bpText].filter(Boolean).join(" | ");
+      advisor.innerHTML = `
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${statusColor};"></span>
+        <span style="color:${statusColor}; font-weight:600;">${content || 'Awaiting valid entries...'}</span>
+      `;
     }
 
     // Calculate & Render Metrics
@@ -1042,10 +1328,10 @@
       document.getElementById("avgWater").textContent = `${avgWater} ml`;
       document.getElementById("avgActive").textContent = `${avgActive} mins`;
 
-      // Render trends (relative to targets)
-      renderTrend("sleepTrend", avgSleep, 7, "hrs target");
-      renderTrend("waterTrend", avgWater, 2000, "ml target");
-      renderTrend("activeTrend", avgActive, 30, "mins target");
+      // Render trends (relative to custom targets)
+      renderTrend("sleepTrend", avgSleep, customGoals.sleep, "hrs goal");
+      renderTrend("waterTrend", avgWater, customGoals.water, "ml goal");
+      renderTrend("activeTrend", avgActive, customGoals.active, "mins goal");
     }
 
     // Helper to render trend messages
@@ -1053,39 +1339,50 @@
       const el = document.getElementById(elementId);
       if (avg >= target) {
         el.className = "metric-trend trend-up";
+        el.style.color = "var(--success)";
         el.innerHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-          Meeting daily wellness goal
+          Exceeding personal goal of ${target}
         `;
       } else {
         el.className = "metric-trend trend-warning";
         el.style.color = "var(--warning)";
         el.innerHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          Slightly below target (${target} ${label.split(' ')[0]})
+          Goal is ${target} ${label.split(' ')[0]}
         `;
       }
     }
 
-    // Render History List
+    // Render History List with Filters and Search
     function renderHistory() {
       const historyList = document.getElementById("historyList");
+      const searchQuery = document.getElementById("historySearch").value.toLowerCase();
+      const moodFilter = document.getElementById("historyFilter").value;
       historyList.innerHTML = "";
 
-      if (healthLogs.length === 0) {
+      // Filter and Search
+      let filteredLogs = healthLogs.filter(log => {
+        const formattedDateStr = new Date(log.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).toLowerCase();
+        const matchesSearch = formattedDateStr.includes(searchQuery) || log.date.includes(searchQuery);
+        const matchesMood = moodFilter === "All" || log.mood === moodFilter;
+        return matchesSearch && matchesMood;
+      });
+
+      if (filteredLogs.length === 0) {
         historyList.innerHTML = `
           <div class="empty-state">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
             </svg>
-            <p>No wellness entries recorded yet. Start tracking your health journey today!</p>
+            <p>No matching wellness entries found. Try adjusting your filter parameters.</p>
           </div>
         `;
         return;
       }
 
       // Sort logs by date descending
-      const sortedLogs = [...healthLogs].sort((a, b) => new Date(b.date) - new Date(a.date));
+      const sortedLogs = [...filteredLogs].sort((a, b) => new Date(b.date) - new Date(a.date));
 
       sortedLogs.forEach(log => {
         const card = document.createElement("div");
@@ -1117,6 +1414,177 @@
       });
     }
 
+    // Switch active trend chart metric
+    function switchChartMetric(metric) {
+      activeChartMetric = metric;
+      const buttons = document.querySelectorAll(".chart-tab-btn");
+      buttons.forEach(btn => btn.classList.remove("active"));
+      
+      // Find matching button
+      const indexMap = { 'sleep': 0, 'water': 1, 'active': 2, 'heart': 3 };
+      buttons[indexMap[metric]].classList.add("active");
+
+      renderChart();
+    }
+
+    // Render Dynamic SVG Trend Chart
+    function renderChart() {
+      const svg = document.getElementById("trendSvg");
+      svg.innerHTML = ""; // Clear existing
+
+      if (healthLogs.length === 0) {
+        svg.innerHTML = `<text x="300" y="110" fill="var(--text-3)" font-size="14" text-anchor="middle">No data to display trend</text>`;
+        return;
+      }
+
+      // Sort logs by date ascending for trendline
+      const trendLogs = [...healthLogs].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-7);
+
+      const width = 600;
+      const height = 220;
+      const padding = 40;
+      const chartWidth = width - padding * 2;
+      const chartHeight = height - padding * 2;
+
+      // Extract values based on metric
+      let dataValues = [];
+      let metricLabel = "";
+      if (activeChartMetric === 'sleep') {
+        dataValues = trendLogs.map(log => parseFloat(log.sleepHours));
+        metricLabel = "hours";
+      } else if (activeChartMetric === 'water') {
+        dataValues = trendLogs.map(log => parseInt(log.waterIntake));
+        metricLabel = "ml";
+      } else if (activeChartMetric === 'active') {
+        dataValues = trendLogs.map(log => parseInt(log.activeMins));
+        metricLabel = "mins";
+      } else if (activeChartMetric === 'heart') {
+        dataValues = trendLogs.map(log => parseInt(log.heartRate));
+        metricLabel = "bpm";
+      }
+
+      const maxVal = Math.max(...dataValues, 10) * 1.15;
+      const minVal = Math.min(...dataValues, 0) * 0.85;
+      const valRange = maxVal - minVal;
+
+      // Draw grid lines
+      for (let i = 0; i <= 4; i++) {
+        const y = padding + (chartHeight * i) / 4;
+        const gridVal = (maxVal - (valRange * i) / 4).toFixed(0);
+        
+        // Horizontal line
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", padding);
+        line.setAttribute("y1", y);
+        line.setAttribute("x2", width - padding);
+        line.setAttribute("y2", y);
+        line.setAttribute("stroke", "rgba(130, 160, 140, 0.1)");
+        line.setAttribute("stroke-dasharray", "4");
+        svg.appendChild(line);
+
+        // Grid text label
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", padding - 10);
+        text.setAttribute("y", y + 4);
+        text.setAttribute("fill", "var(--text-3)");
+        text.setAttribute("font-size", "10");
+        text.setAttribute("text-anchor", "end");
+        text.textContent = gridVal;
+        svg.appendChild(text);
+      }
+
+      // Calculate Coordinates
+      const points = trendLogs.map((log, index) => {
+        const x = padding + (chartWidth * index) / Math.max(1, trendLogs.length - 1);
+        const ratio = valRange === 0 ? 0.5 : (dataValues[index] - minVal) / valRange;
+        const y = height - padding - chartHeight * ratio;
+        return { x, y, val: dataValues[index], date: log.date };
+      });
+
+      // Draw Polyline Path
+      if (points.length > 1) {
+        const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        const pointsStr = points.map(p => `${p.x},${p.y}`).join(" ");
+        polyline.setAttribute("points", pointsStr);
+        polyline.setAttribute("fill", "none");
+        polyline.setAttribute("stroke", "var(--accent)");
+        polyline.setAttribute("stroke-width", "3");
+        polyline.setAttribute("stroke-linecap", "round");
+        polyline.setAttribute("stroke-linejoin=","round");
+        svg.appendChild(polyline);
+
+        // Draw Area Under Curve
+        const area = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        const firstPoint = points[0];
+        const lastPoint = points[points.length - 1];
+        const areaPointsStr = `${firstPoint.x},${height - padding} ${pointsStr} ${lastPoint.x},${height - padding}`;
+        area.setAttribute("points", areaPointsStr);
+        area.setAttribute("fill", "url(#chartGrad)");
+        svg.appendChild(area);
+      }
+
+      // Draw Gradient Definition
+      const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+      defs.innerHTML = `
+        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0"/>
+        </linearGradient>
+      `;
+      svg.appendChild(defs);
+
+      // Draw interactive circles and tooltips
+      const tooltip = document.getElementById("chartTooltip");
+      points.forEach(p => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", p.x);
+        circle.setAttribute("cy", p.y);
+        circle.setAttribute("r", "5");
+        circle.setAttribute("fill", "#fff");
+        circle.setAttribute("stroke", "var(--accent)");
+        circle.setAttribute("stroke-width", "3");
+        circle.style.cursor = "pointer";
+        circle.style.transition = "all 0.2s";
+
+        circle.addEventListener("mouseenter", (e) => {
+          circle.setAttribute("r", "8");
+          circle.setAttribute("fill", "var(--accent-2)");
+          
+          const formattedDate = new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          tooltip.innerHTML = `<strong>${formattedDate}</strong>: ${p.val} ${metricLabel}`;
+          tooltip.style.opacity = "1";
+          
+          // Position tooltip
+          const rect = svg.getBoundingClientRect();
+          const tooltipRect = tooltip.getBoundingClientRect();
+          const xPos = (p.x / width) * rect.width - tooltipRect.width / 2;
+          const yPos = (p.y / height) * rect.height - tooltipRect.height - 12;
+          tooltip.style.left = `${xPos}px`;
+          tooltip.style.top = `${yPos}px`;
+        });
+
+        circle.addEventListener("mouseleave", () => {
+          circle.setAttribute("r", "5");
+          circle.setAttribute("fill", "#fff");
+          circle.setAttribute("stroke", "var(--accent)");
+          tooltip.style.opacity = "0";
+        });
+
+        svg.appendChild(circle);
+
+        // Draw X-Axis Date Labels
+        const dateText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const shortDate = new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        dateText.setAttribute("x", p.x);
+        dateText.setAttribute("y", height - padding + 20);
+        dateText.setAttribute("fill", "var(--text-3)");
+        dateText.setAttribute("font-size", "10");
+        dateText.setAttribute("text-anchor", "middle");
+        dateText.textContent = shortDate;
+        svg.appendChild(dateText);
+      });
+    }
+
     // Generate Dynamic Insights
     function renderInsights() {
       const titleEl = document.getElementById("insightTitle");
@@ -1130,16 +1598,16 @@
 
       const latestLog = [...healthLogs].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
       
-      // Dynamic Insight Engine based on latest metrics
-      if (latestLog.sleepHours < 6.5) {
+      // Dynamic Insight Engine based on latest metrics and custom goals
+      if (latestLog.sleepHours < customGoals.sleep) {
         titleEl.textContent = "Focus on Rest & Recovery";
-        descEl.textContent = `Your last logged sleep was ${latestLog.sleepHours} hours. Try to limit screen exposure 1 hour before bed tonight to improve deep sleep cycles.`;
-      } else if (latestLog.waterIntake < 2000) {
+        descEl.textContent = `Your last logged sleep was ${latestLog.sleepHours} hours (goal: ${customGoals.sleep} hrs). Try to limit screen exposure 1 hour before bed tonight to improve deep sleep cycles.`;
+      } else if (latestLog.waterIntake < customGoals.water) {
         titleEl.textContent = "Hydration Reminder";
-        descEl.textContent = `You logged ${latestLog.waterIntake}ml of water. Increasing intake by just two glasses can boost cognitive function and reduce muscle tension.`;
-      } else if (latestLog.activeMins < 30) {
+        descEl.textContent = `You logged ${latestLog.waterIntake}ml of water (goal: ${customGoals.water}ml). Increasing intake by just two glasses can boost cognitive function and reduce muscle tension.`;
+      } else if (latestLog.activeMins < customGoals.active) {
         titleEl.textContent = "Gentle Movement Encouraged";
-        descEl.textContent = `You logged ${latestLog.activeMins} active minutes. Even a brisk 15-minute walk today can significantly lower blood pressure and raise your mood.`;
+        descEl.textContent = `You logged ${latestLog.activeMins} active minutes (goal: ${customGoals.active} mins). Even a brisk 15-minute walk today can significantly lower blood pressure and raise your mood.`;
       } else if (latestLog.mood === "Stressed" || latestLog.mood === "Tired") {
         titleEl.textContent = "Mindful Pause Recommended";
         descEl.textContent = "Your logged mood indicates stress or fatigue. Consider spending 5 minutes practicing slow, rhythmic breathing to reset your nervous system.";
@@ -1186,6 +1654,7 @@
       document.getElementById("waterIntake").value = "";
       document.getElementById("activeMins").value = "";
       document.getElementById("mood").selectedIndex = 0;
+      document.getElementById("liveAdvisor").style.display = "none";
     }
 
     // Quick Water Add to Today's Log
