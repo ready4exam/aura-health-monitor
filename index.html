@@ -511,6 +511,120 @@
       margin-bottom: 16px;
     }
 
+    /* About Repository Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(44, 62, 53, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-card {
+      max-width: 650px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-backdrop.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    .modal-tab-btn {
+      background: none;
+      border: none;
+      padding: 8px 16px;
+      color: var(--text-2);
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .modal-tab-btn.active {
+      background: rgba(95, 133, 117, 0.12);
+      color: var(--accent);
+    }
+
+    .modal-tab-content {
+      display: none;
+    }
+
+    .modal-tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tech-pill {
+      display: inline-block;
+      background: rgba(95, 133, 117, 0.08);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 6px;
+      margin-bottom: 8px;
+    }
+
+    .repo-feature-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .repo-feature-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    .repo-feature-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
     /* Animations */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
@@ -558,6 +672,26 @@
       return true; // suppress visual error overlay
     };
   </script>
+
+  <!-- AppBuilder runtime monitor -->
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      try {
+        fetch('http://localhost:3000/api/telemetry/report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            appPath: window.location.pathname,
+            errorMsg: msg,
+            source: src,
+            line: line,
+            stackTrace: err ? err.stack : ''
+          })
+        });
+      } catch (_) {}
+      return true; // suppress visual error overlay
+    };
+  </script>
 </head>
 <body>
 
@@ -575,11 +709,23 @@
       </div>
       <h1 class="headline">Your Daily Wellness, Harmonized</h1>
       <p class="hero-subtitle">Track vitals, monitor habits, and nurture your body with AuraHealth. A quiet, clean space designed for holistic healing and progress.</p>
+      
+      <!-- Interactive Guide / Repository Overview Buttons -->
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: -12px; margin-bottom: 24px;" class="animate delay-2">
+        <a href="#dashboard" class="btn" style="width: auto; padding: 12px 24px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Open Tracker Dashboard
+        </a>
+        <button class="btn btn-ghost" style="width: auto; padding: 12px 24px;" onclick="openAboutModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          What is this Repository?
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Dashboard Container -->
-  <main class="dashboard-container">
+  <main class="dashboard-container" id="dashboard">
     <div class="dashboard-grid">
       
       <!-- Left Column: Quick Logs & Form -->
@@ -736,6 +882,79 @@
 
     </div>
   </main>
+
+  <!-- Interactive "About this Repository" Modal -->
+  <div class="modal-backdrop" id="aboutModal" onclick="closeAboutModalOnBackdrop(event)">
+    <div class="card modal-card animate">
+      <div class="modal-header">
+        <h2 style="font-size: 22px; color: var(--text); display: flex; align-items: center; gap: 10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          About AuraHealth Repository
+        </h2>
+        <button class="btn-icon" onclick="closeAboutModal()" style="border: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" onclick="switchModalTab(event, 'about-overview')">🌟 Overview</button>
+        <button class="modal-tab-btn" onclick="switchModalTab(event, 'about-features')">⚙️ Core Features</button>
+        <button class="modal-tab-btn" onclick="switchModalTab(event, 'about-tech')">🔒 Privacy & Tech</button>
+      </div>
+
+      <!-- Tab 1: Overview -->
+      <div class="modal-tab-content active" id="about-overview">
+        <h3 style="margin-bottom: 12px; font-size: 18px; color: var(--accent);">What is AuraHealth?</h3>
+        <p style="font-size: 15px; color: var(--text-2); margin-bottom: 16px; line-height: 1.7;">
+          <strong>AuraHealth</strong> is a quiet, clean, and local-first <strong>Personal Wellness & Vitals Companion</strong>. 
+          This repository is designed to serve as a private, meditative digital journal for logging physiological metrics, tracking daily habits, and visualizing your general health path over time.
+        </p>
+        <p style="font-size: 15px; color: var(--text-2); line-height: 1.7;">
+          Rather than dealing with complicated, cluttered clinical dashboards or trackers that sell your personal health logs, AuraHealth offers a peaceful aesthetic with absolute offline privacy.
+        </p>
+      </div>
+
+      <!-- Tab 2: Core Features -->
+      <div class="modal-tab-content" id="about-features">
+        <h3 style="margin-bottom: 12px; font-size: 18px; color: var(--accent);">Key Application Capabilities</h3>
+        <p style="font-size: 14px; color: var(--text-2); margin-bottom: 12px;">
+          This completely functional web workspace includes the following capabilities:
+        </p>
+        <ul class="repo-feature-list">
+          <li><strong>Daily Vitals Logging:</strong> Track Heart Rate (bpm), Blood Pressure (systolic/diastolic), Sleep hours, Water intake, Active exercise minutes, and general Mood.</li>
+          <li><strong>One-Tap Quick Trackers:</strong> Add hydration (+250ml) or movement (+15m) to your active day instantly with simple, intuitive buttons.</li>
+          <li><strong>Dynamic AI-Style Insights:</strong> Receives your metrics instantly and generates health-conscious, context-aware advice based on your current levels.</li>
+          <li><strong>Averages & Target Trends:</strong> Compiles your history to measure whether you are meeting recommended targets (e.g., 7 hours of sleep, 2L water, 30 min activity).</li>
+          <li><strong>Historical Ledger:</strong> Review your chronological wellness history, overwrite existing dates, or delete entries seamlessly.</li>
+        </ul>
+      </div>
+
+      <!-- Tab 3: Tech & Privacy -->
+      <div class="modal-tab-content" id="about-tech">
+        <h3 style="margin-bottom: 12px; font-size: 18px; color: var(--accent);">Technical Highlights & Privacy</h3>
+        <p style="font-size: 14px; color: var(--text-2); margin-bottom: 16px; line-height: 1.7;">
+          This repository is built with simplicity, ease of deployment, and absolute privacy in mind:
+        </p>
+        
+        <div style="margin-bottom: 16px;">
+          <span class="tech-pill">Vanilla JS (ES6)</span>
+          <span class="tech-pill">HTML5 Canvas/Storage</span>
+          <span class="tech-pill">CSS Glassmorphism</span>
+          <span class="tech-pill">Zero Server Dependencies</span>
+          <span class="tech-pill">No Trackers</span>
+        </div>
+
+        <p style="font-size: 14px; color: var(--text-2); line-height: 1.7;">
+          <strong>100% Local Storage:</strong> All data is stored directly in your computer's browser using <code>localStorage</code>. No health data ever leaves your device, keeping your personal metrics completely private and secure. 
+          You can clear your local data anytime using the <strong>Reset Data</strong> button in the ledger.
+        </p>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+        <button class="btn" style="width: auto; padding: 10px 24px;" onclick="closeAboutModal()">Got it, thanks!</button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>&copy; <span id="year"></span> AuraHealth. Nurture your mind, body, and spirit. Built locally and privately.</p>
@@ -1060,6 +1279,42 @@
         toast.style.transition = "opacity 0.3s";
         setTimeout(() => toast.remove(), 300);
       }, 2500);
+    }
+
+    // Modal Control Functions
+    function openAboutModal() {
+      document.getElementById("aboutModal").classList.add("active");
+    }
+
+    // Close Modal
+    function closeAboutModal() {
+      document.getElementById("aboutModal").classList.remove("active");
+    }
+
+    // Close Modal on Backdrop Click
+    function closeAboutModalOnBackdrop(e) {
+      if (e.target === document.getElementById("aboutModal")) {
+        closeAboutModal();
+      }
+    }
+
+    // Switch Modal Tab
+    function switchModalTab(event, tabId) {
+      // Deactivate all tab buttons
+      const buttons = document.querySelectorAll(".modal-tab-btn");
+      buttons.forEach(btn => btn.classList.remove("active"));
+
+      // Deactivate all tab contents
+      const contents = document.querySelectorAll(".modal-tab-content");
+      contents.forEach(content => content.classList.remove("active"));
+
+      // Activate clicked button
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add("active");
+      }
+
+      // Activate selected content
+      document.getElementById(tabId).classList.add("active");
     }
   </script>
 </body>
