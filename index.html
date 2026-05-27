@@ -376,7 +376,7 @@
 
     .goals-inputs-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Adjusted for more inputs */
       gap: 12px;
       margin-top: 16px;
       animation: fadeIn 0.3s ease;
@@ -806,6 +806,26 @@
       return true; // suppress visual error overlay
     };
   </script>
+
+  <!-- Ready4Launch runtime monitor -->
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      try {
+        fetch('http://localhost:3000/api/telemetry/report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            appPath: window.location.pathname,
+            errorMsg: msg,
+            source: src,
+            line: line,
+            stackTrace: err ? err.stack : ''
+          })
+        });
+      } catch (_) {}
+      return true; // suppress visual error overlay
+    };
+  </script>
 </head>
 <body>
 
@@ -856,13 +876,13 @@
           <div class="quick-track-section">
             <div class="quick-box" onclick="quickWaterAdd()">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"/></svg>
-              <div class="quick-box-val">+250ml</div>
+              <div class="quick-box-val" id="quickWaterVal">+250ml</div>
               <div class="quick-box-lbl">Quick Water</div>
             </div>
             <div class="quick-box" onclick="quickActiveAdd()">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              <div class="quick-box-val">+15m</div>
-              <div class="quick-box-lbl">Active Time</div>
+              <div class="quick-box-val" id="quickActiveVal">+15m</div>
+              <div class="quick-box-lbl">Quick Active</div>
             </div>
           </div>
 
@@ -941,6 +961,14 @@
               <div class="form-group" style="margin-bottom: 0;">
                 <label for="goalActive" style="font-size: 11px;">Active (min)</label>
                 <input type="number" id="goalActive" value="30" step="5" min="5" max="180" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="goalQuickWater" style="font-size: 11px;">Quick Water (ml)</label>
+                <input type="number" id="goalQuickWater" value="250" step="50" min="50" max="1000" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="goalQuickActive" style="font-size: 11px;">Quick Active (min)</label>
+                <input type="number" id="goalQuickActive" value="15" step="5" min="5" max="60" style="padding: 8px; font-size: 13px;" onchange="saveCustomGoals()">
               </div>
             </div>
           </div>
@@ -1101,6 +1129,7 @@
         <ul class="repo-feature-list">
           <li><strong>Daily Vitals Logging:</strong> Track Heart Rate (bpm), Blood Pressure (systolic/diastolic), Sleep hours, Water intake, Active exercise minutes, and general Mood.</li>
           <li><strong>One-Tap Quick Trackers:</strong> Add hydration (+250ml) or movement (+15m) to your active day instantly with simple, intuitive buttons.</li>
+          <li><strong>Customizable Quick Trackers:</strong> Adjust the default values for one-tap water intake and active minute additions to suit your immediate needs.</li>
           <li><strong>Dynamic SVG Trends:</strong> Interactive health graphs that dynamically render Sleep, Water, Active time, and Heart Rate trends with tooltips.</li>
           <li><strong>Custom Goals Setting:</strong> Set and customize sleep, hydration, and activity goals to update target metrics dynamically.</li>
           <li><strong>Real-time Vitals Assessor:</strong> Immediate visual clinical range feedback on heart rate and blood pressure inputs as you type.</li>
@@ -1152,7 +1181,9 @@
     const defaultGoals = {
       sleep: 7.5,
       water: 2000,
-      active: 30
+      active: 30,
+      quickWater: 250, // New default for quick add
+      quickActive: 15  // New default for quick add
     };
 
     let healthLogs = [];
@@ -1183,10 +1214,10 @@
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
       }
 
-      // Load goals from localStorage or set defaults
+      // Load goals from localStorage or set defaults, merging to include new properties
       const storedGoals = localStorage.getItem("aura_health_goals");
       if (storedGoals) {
-        customGoals = JSON.parse(storedGoals);
+        customGoals = { ...defaultGoals, ...JSON.parse(storedGoals) }; 
       } else {
         customGoals = { ...defaultGoals };
         localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
@@ -1196,22 +1227,28 @@
       document.getElementById("goalSleep").value = customGoals.sleep;
       document.getElementById("goalWater").value = customGoals.water;
       document.getElementById("goalActive").value = customGoals.active;
+      document.getElementById("goalQuickWater").value = customGoals.quickWater; // New
+      document.getElementById("goalQuickActive").value = customGoals.quickActive; // New
 
+      updateQuickBoxDisplays(); // Update quick add button labels
       renderApp();
     });
 
     // Reset to Sample Data
     function resetToSampleData() {
-      if (confirm("Are you sure you want to reset and reload the sample health logs?")) {
+      if (confirm("Are you sure you want to reset and reload the sample health logs? This will also reset your custom goals.")) {
         healthLogs = [...defaultLogs];
-        customGoals = { ...defaultGoals };
+        customGoals = { ...defaultGoals }; // Reset to defaultGoals, which now include quick values
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
         
         document.getElementById("goalSleep").value = customGoals.sleep;
         document.getElementById("goalWater").value = customGoals.water;
         document.getElementById("goalActive").value = customGoals.active;
+        document.getElementById("goalQuickWater").value = customGoals.quickWater; // New
+        document.getElementById("goalQuickActive").value = customGoals.quickActive; // New
 
+        updateQuickBoxDisplays(); // Update quick add button labels
         renderApp();
       }
     }
@@ -1230,15 +1267,24 @@
       panel.style.display = panel.style.display === "none" ? "grid" : "none";
     }
 
-    // Save customized goals
+    // Save customized goals and quick add amounts
     function saveCustomGoals() {
       customGoals.sleep = parseFloat(document.getElementById("goalSleep").value) || defaultGoals.sleep;
       customGoals.water = parseInt(document.getElementById("goalWater").value) || defaultGoals.water;
       customGoals.active = parseInt(document.getElementById("goalActive").value) || defaultGoals.active;
+      customGoals.quickWater = parseInt(document.getElementById("goalQuickWater").value) || defaultGoals.quickWater; // New
+      customGoals.quickActive = parseInt(document.getElementById("goalQuickActive").value) || defaultGoals.quickActive; // New
 
       localStorage.setItem("aura_health_goals", JSON.stringify(customGoals));
+      updateQuickBoxDisplays(); // Update quick add button labels
       renderMetrics();
       showNotification("Personal goal targets updated!");
+    }
+
+    // Update the display of quick add buttons
+    function updateQuickBoxDisplays() {
+      document.getElementById("quickWaterVal").textContent = `+${customGoals.quickWater}ml`;
+      document.getElementById("quickActiveVal").textContent = `+${customGoals.quickActive}m`;
     }
 
     // Real-time Vitals Assessor
@@ -1637,11 +1683,13 @@
       if (existingIdx !== -1) {
         if (confirm(`An entry for ${newLog.date} already exists. Would you like to overwrite it?`)) {
           healthLogs[existingIdx] = newLog;
+          showNotification("Daily entry updated!");
         } else {
           return;
         }
       } else {
         healthLogs.push(newLog);
+        showNotification("New daily entry saved!");
       }
 
       localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
@@ -1661,12 +1709,13 @@
     function quickWaterAdd() {
       const todayStr = getPastDateString(0);
       const todayLog = healthLogs.find(log => log.date === todayStr);
+      const addAmount = customGoals.quickWater; // Use customized amount
 
       if (todayLog) {
-        todayLog.waterIntake += 250;
+        todayLog.waterIntake += addAmount;
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         renderApp();
-        showNotification("Added 250ml water to today's log!");
+        showNotification(`Added ${addAmount}ml water to today's log!`);
       } else {
         // Create basic today log
         const newLog = {
@@ -1675,14 +1724,14 @@
           heartRate: 72,
           bloodPressure: "120/80",
           sleepHours: 7.0,
-          waterIntake: 250,
+          waterIntake: addAmount, // Use customized amount
           activeMins: 0,
           mood: "Calm"
         };
         healthLogs.push(newLog);
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         renderApp();
-        showNotification("Created today's log & added 250ml water!");
+        showNotification(`Created today's log & added ${addAmount}ml water!`);
       }
     }
 
@@ -1690,12 +1739,13 @@
     function quickActiveAdd() {
       const todayStr = getPastDateString(0);
       const todayLog = healthLogs.find(log => log.date === todayStr);
+      const addAmount = customGoals.quickActive; // Use customized amount
 
       if (todayLog) {
-        todayLog.activeMins += 15;
+        todayLog.activeMins += addAmount;
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         renderApp();
-        showNotification("Added 15 minutes of activity!");
+        showNotification(`Added ${addAmount} minutes of activity!`);
       } else {
         // Create basic today log
         const newLog = {
@@ -1705,13 +1755,13 @@
           bloodPressure: "120/80",
           sleepHours: 7.0,
           waterIntake: 0,
-          activeMins: 15,
+          activeMins: addAmount, // Use customized amount
           mood: "Calm"
         };
         healthLogs.push(newLog);
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         renderApp();
-        showNotification("Created today's log & added 15m activity!");
+        showNotification(`Created today's log & added ${addAmount}m activity!`);
       }
     }
 
@@ -1721,6 +1771,7 @@
         healthLogs = healthLogs.filter(log => log.id !== id);
         localStorage.setItem("aura_health_logs", JSON.stringify(healthLogs));
         renderApp();
+        showNotification("Entry deleted successfully.");
       }
     }
 
